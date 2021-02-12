@@ -1,0 +1,47 @@
+ &ATOM
+  Z  =     17.000000000000000     
+  ZV =     7.0000000000000000     
+  XC = 0362   0.6666666667
+  TYPE = NORMCONSERVING GOEDECKER
+ &END
+ &INFO
+ ****************************************************************
+
+ Atomic symbol                       : Cl
+
+ Atomic number                       :  17
+ Effective core charge               :   7
+ Number of core states               :   3
+ Number of valence states            :  13
+ Electronic configuration (s,p,d,...):     2    5
+
+ Exchange-correlation functional     : OLYP
+
+       r(loc)         C(1)
+     0.410000    -6.189361
+
+         r(0)     h(i,j)^0
+     0.338208    15.357453    -4.991087
+                               6.443465
+         r(1)     h(i,j)^1
+     0.377323     4.354877
+
+ Please cite:
+
+ - S. Goedecker, M. Teter, and J. Hutter,
+   Phys. Rev. B 54, 1703 (1996)
+ - C. Hartwigsen, S. Goedecker, and J. Hutter,
+   Phys. Rev. B 58, 3641 (1998)
+ - M. Krack,
+   Theor. Chem. Acc. 114, 145 (2005)
+
+ ****************************************************************
+ &END
+ &POTENTIAL
+     GOEDECKER
+           2                                    LMAX
+      0.410000000                                 RC
+   1    -6.189361195   #C  C1
+      0.338207684  2  15.357452650  -4.991086751   6.443465289 H(s) 11 12 22           
+      0.377323123  1   4.354876952 H(p) 11                 
+ &END
