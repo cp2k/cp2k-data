@@ -3,8 +3,6 @@
 # pseudopotentials (GTH PP) in CPMD format, CP2K/Quickstep,
 # and ABINIT format
 
-  export G95_MINUS_ZERO=true
-
 # Generate the CP2K and ABINIT files by converting the
 # psp.par files in the build/ tree
   if [[ ! -f gth_pp_convert.x ]]; then
@@ -31,6 +29,13 @@
 
 # Create a new GTH_POTENTIALS database file for CP2K/Quickstep
   ./create_cp2k_potential_file.sh
-  ./create_tex_file.sh
+  if [[ $1 == "tex" ]]; then
+     ./create_tex_file.sh
+  else
+     rm -rf ../tex
+  fi
+
+# Clean up
+  rm -f gth_pp_convert.x
 
   echo GTH PP database update finished
