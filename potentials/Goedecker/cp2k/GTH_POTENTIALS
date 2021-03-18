@@ -13,7 +13,7 @@
 #             - Automatic update (16.12.2003,MK)
 #             - PBE GTH-PPs for the Lanthanides added (30.11.2012,MK)
 #             - Set default GTH PPs (12.08.2016,MK)
-#             - Last update (12.02.2021,MK)
+#             - Last update (18.03.2021,MK)
 #
 # Literature: - S. Goedecker, M. Teter, and J. Hutter,
 #               Phys. Rev. B 54, 1703 (1996)
@@ -117,6 +117,14 @@ Ne GTH-BLYP-q8 GTH-BLYP
      0.17823784    2    27.95784886     0.83365601
                                        -1.07624528
      0.15276372    1     0.33116999
+#
+Na GTH-BLYP-q1
+    1
+     0.69776697    1    -1.37447347
+    2
+     0.73364610    2     1.58066758    -0.03315581
+                                        0.04280397
+     0.89412359    1     0.32941028
 #
 Na GTH-BLYP-q9 GTH-BLYP
     3    6
@@ -2610,6 +2618,14 @@ Ne GTH-PBE-q8 GTH-PBE
      0.17605938    2    28.17737082     0.83365601
                                        -1.07624528
      0.19547452    1    -0.23629360
+#
+Na GTH-PBE-q1
+    1
+     0.71392610    1    -3.15164518
+    2
+     0.76012915    2     1.91260929    -0.16720348
+                                        0.21585877
+     0.88846911    1     0.50929900
 #
 Na GTH-PBE-q9 GTH-PBE
     3    6

@@ -1,0 +1,9 @@
+Goedecker pseudopotential for Na
+   11   1  070301 zatom,zion,pspdat
+10 11  1 0 2001 0  pspcod,pspxc,lmax,lloc,mmax,r2well
+     0.71392610    1    -3.15164518                                                 rloc nloc c1
+    2                                                                               nnonloc
+     0.76012915    2     1.91260929    -0.16720348                                  rs ns hs11 hs12
+                                        0.21585877                                             hs22
+     0.88846911    1     0.50929900                                                 rp np hp11
+                         0.00191745                                                       kp11
