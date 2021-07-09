@@ -307,7 +307,7 @@ PROGRAM gth_pp_convert
   READ (UNIT=unit_xx,FMT=*) xx_rloc
   READ (UNIT=unit_xx,FMT=*) nppl,(xx_cppl(i),i=1,nppl)
   DO ippnl=1,nppnl_max
-    READ (UNIT=unit_xx,FMT=*) xx_rppnl(ippnl),xx_nppnl(ippnl),&
+    READ (UNIT=unit_xx,FMT="(T2,F16.9,I3,6F14.9)") xx_rppnl(ippnl),xx_nppnl(ippnl),&
       ((xx_hppnl(i,j,ippnl),j=i,xx_nppnl(ippnl)),i=1,xx_nppnl(ippnl))
   END DO
 
