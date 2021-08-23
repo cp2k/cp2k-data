@@ -1,3 +1,6 @@
+The directory atom contains the source for the atomic all-electron program.
+The directory pseudo contains the sources for two programs to fit the
+parameters of Goedecker pseudopotentials.
 #
 # this is just a quick step-by-step reminder on how to get a GTH pseudo
 # read cp2k-data/potentials/Goedecker/atom/README
