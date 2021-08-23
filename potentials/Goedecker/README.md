@@ -71,8 +71,8 @@ before 400 iterations are completed. Values in the range 400 to 800 are appropri
 ```
 touch EXIT
 ```
-#### 4) For the final check of the obtained fit just add the -plot option to the command used for
-the fit
+#### 4) Check the fit
+For the final check of the obtained fit just add the `-plot` option to the command used for the fit
 ```
 cp2k-data/potentials/Goedecker/pseudo/v2.2/pseudo.x -orth -c1000 -n400 -denbas -fullacc [-l1so] -plot
 ```
