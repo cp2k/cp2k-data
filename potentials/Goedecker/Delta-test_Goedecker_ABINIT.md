@@ -1,12 +1,18 @@
-#### Delta test results
+# Delta test results
 
-Code: ABINIT 9.4.2
+**Pseudopotentials**: [Goedecker-Teter-Hutter (GTH)](https://github.com/cp2k/cp2k-data/tree/413cdf9f270c8af920b6cab189d14e21a15e70ea/potentials/Goedecker/abinit/pbe)
 
-Exchange-correlation functional: Perdew-Burke-Ernzerhof (PBE)
+**Code**: ABINIT 9.4.2
 
-Pseudopotentials: [https://github.com/cp2k/cp2k-data/tree/master/potentials/Goedecker/abinit/pbe](Goedecker-Teter-Hutter (GTH))
+**Exchange-correlation functional**: PBE (ixc = 11)
 
-| # | Element | Z<sub>eff</sub> | E<sub>cut</sub> | k point mesh | V<sub>0</sub> [&Aring;<sup>3</sup>/atom] | B<sub>0</sub> [GPa] | B<sub>1</sub> [-] |
+**Cutoff energy**: ecut = 200 Hartree
+
+**Fermi-Dirac smearing**: tsmear = 1 mHartree
+
+**k-mesh density**: kptrlen > 100 (see table)
+
+| Z | Element | Z<sub>eff</sub> | E<sub>cut</sub> [Hartree] | k point mesh | V<sub>0</sub> [&Aring;<sup>3</sup>/atom] | B<sub>0</sub> [GPa] | B<sub>1</sub> [-] |
 |  :---: | :---: | :---: | ---: | :---: | ---: | ---: | ---: |
 |   1 |  H |   q1 | 200.0 | 15&times;15&times;11 | 17.421 | 10.260 | 2.686 |
 |   2 | He |   q2 | 200.0 | 19&times;19&times;13 | 17.775 | 0.857 | 6.431 |
