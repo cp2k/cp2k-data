@@ -1,8 +1,10 @@
 # Delta test results
 
+(see https://molmod.ugent.be/deltacodesdft for further details)
+
 **Pseudopotentials**: [Goedecker-Teter-Hutter (GTH)](https://github.com/cp2k/cp2k-data/tree/413cdf9f270c8af920b6cab189d14e21a15e70ea/potentials/Goedecker/abinit/pbe)
 
-**Code**: ABINIT 9.4.2
+**Code**: [ABINIT 9.4.2](https://www.abinit.org)
 
 **Exchange-correlation functional**: PBE (ixc = 11)
 
