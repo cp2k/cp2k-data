@@ -2,7 +2,7 @@
 
 (see https://molmod.ugent.be/deltacodesdft for further details)
 
-**Pseudopotentials**: Goedecker-Teter-Hutter (GTH)
+**Pseudopotentials**: [Goedecker-Teter-Hutter (GTH)](https://github.com/cp2k/cp2k-data/tree/11583fd2c05d051b7b87ded2a5487d821704d2af/potentials/GTH_rev/ABINIT/PBE)
 
 **Code**: [ABINIT 9.4.2](https://www.abinit.org)
 
