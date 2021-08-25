@@ -1,0 +1,5 @@
+Goedecker-Teter-Hutter (GTH) pseudopotential for He (M. Krack, PSI)
+    2   2  20210825                                                               znucl zion pspdat
+   10  11 -1 2 2001 0                                                             pspcod pspxc lmax lloc mmax r2well
+     0.20000000    2    -9.06985408     1.67662554                                rloc nloc c1 c2
+    0                                                                             nnonloc
