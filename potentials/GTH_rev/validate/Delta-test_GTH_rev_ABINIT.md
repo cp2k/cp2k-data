@@ -2,17 +2,17 @@
 
 (see https://molmod.ugent.be/deltacodesdft for further details)
 
-**Pseudopotentials**: [Goedecker-Teter-Hutter (GTH)](https://github.com/cp2k/cp2k-data/tree/11583fd2c05d051b7b87ded2a5487d821704d2af/potentials/GTH_rev/ABINIT/PBE)
+**Pseudopotentials**: [Goedecker-Teter-Hutter (GTH)](https://github.com/cp2k/cp2k-data/tree/d0641939ca0a9bdf3ec10d29d011cacd434498ce/potentials/GTH_rev/ABINIT/PBE)
 
 **Code**: [ABINIT 9.4.2](https://www.abinit.org)
 
 **Exchange-correlation functional**: PBE (ixc = 11)
 
-**Cutoff energy**: ecut >= 200 Hartree (see table)
+**Cutoff energy**: ecut &ge; 200 Hartree (see table)
 
 **Fermi-Dirac smearing**: tsmear = 1 mHartree
 
-**k-mesh density**: kptrlen > 100 (see table)
+**k-mesh density**: kptrlen &gt; 100 (see table)
 
 | Z | Element | Z<sub>eff</sub> |  E<sub>cut</sub> [Hartree] | k point mesh | V<sub>0</sub> [&Aring;<sup>3</sup>/atom] | B<sub>0</sub> [GPa] | B<sub>1</sub> [-] | Delta [meV/atom] |
 |  :---: | :---: | :---: | ---: | :---: | ---: | ---: | ---: | ---: |
