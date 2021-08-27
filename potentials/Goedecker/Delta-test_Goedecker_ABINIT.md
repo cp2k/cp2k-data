@@ -2,7 +2,7 @@
 
 (see https://molmod.ugent.be/deltacodesdft for further details)
 
-**Pseudopotentials**: [Goedecker-Teter-Hutter (GTH)](https://github.com/cp2k/cp2k-data/tree/413cdf9f270c8af920b6cab189d14e21a15e70ea/potentials/Goedecker/abinit/pbe)
+**Pseudopotentials**: [Goedecker-Teter-Hutter (GTH)](https://github.com/cp2k/cp2k-data/tree/master/potentials/Goedecker/abinit/pbe)
 
 **Code**: [ABINIT 9.4.2](https://www.abinit.org)
 
@@ -12,7 +12,7 @@
 
 **Fermi-Dirac smearing**: tsmear = 1 mHartree
 
-**k-mesh density**: kptrlen > 100 (see table)
+**k-mesh density**: kptrlen &gt; 100 (see table)
 
 | Z | Element | Z<sub>eff</sub> | k point mesh | V<sub>0</sub> [&Aring;<sup>3</sup>/atom] | B<sub>0</sub> [GPa] | B<sub>1</sub> [-] | &Delta; [meV/atom] |
 |  :---: | :---: | :---: | :---: | ---: | ---: | ---: | ---: |
