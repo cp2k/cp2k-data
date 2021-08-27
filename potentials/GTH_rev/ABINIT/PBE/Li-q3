@@ -1,5 +1,5 @@
 Goedecker-Teter-Hutter (GTH) pseudopotential for Li (M. Krack, PSI)
-    3   3  20210825                                                               znucl zion pspdat
+    3   3  20210827                                                               znucl zion pspdat
    10  11 -1 6 2001 0                                                             pspcod pspxc lmax lloc mmax r2well
-     0.20000000    4   -22.24746975    11.49501347    -1.65916355     0.06280296  rloc nloc c1 c2 c3 c4
+     0.20000000    4   -22.24851001    11.49656815    -1.65958886     0.06282927  rloc nloc c1 c2 c3 c4
     0                                                                             nnonloc
