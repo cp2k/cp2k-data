@@ -14,7 +14,7 @@
 
 **k-mesh density**: kptrlen &gt; 100 (see table)
 
-| Z | Element | Z<sub>eff</sub> |  E<sub>cut</sub> [Hartree] | k point mesh | V<sub>0</sub> [&Aring;<sup>3</sup>/atom] | B<sub>0</sub> [GPa] | B<sub>1</sub> [-] | &Delta;<sub>new</sub> [meV/atom] | [&Delta;<sub>old</sub> [meV/atom]](https://github.com/cp2k/cp2k-data/edit/master/potentials/Goedecker/Delta-test_Goedecker_ABINIT.md) |
+| Z | Element | Z<sub>eff</sub> |  E<sub>cut</sub> [Hartree] | k point mesh | V<sub>0</sub> [&Aring;<sup>3</sup>/atom] | B<sub>0</sub> [GPa] | B<sub>1</sub> [-] | &Delta;<sub>new</sub> [meV/atom] | [&Delta;<sub>old</sub> [meV/atom]](https://github.com/cp2k/cp2k-data/tree/master/potentials/Goedecker/Delta-test_Goedecker_ABINIT.md) |
 |  :---: | :---: | :---: | ---: | :---: | ---: | ---: | ---: | ---: | ---: |
 |   1 | H  | q1   |   200.0 | 15&times;15&times;11 |   17.392 |   10.285 |    2.682 |     0.008 |     0.072 |
 |   2 | He | q2   |   200.0 | 19&times;19&times;13 |   17.769 |    0.857 |    6.435 |     0.002 |     0.001 |
