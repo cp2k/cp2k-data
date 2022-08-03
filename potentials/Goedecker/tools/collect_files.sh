@@ -18,16 +18,17 @@ for xcfun in blyp bp hcth120 hcth407 pade pbe pbesol olyp; do
       q=$(head -3 ${xxfile} | tail -n 1 | cut -d"=" -f2 | cut -d"." -f1)
       q=$(echo ${q})
       ppdir=$(dirname ${xxfile})
-      pppdir=$(basename $(dirname ${ppdir}))
-      if [[ ${pppdir} == *_* ]]; then
-         ext="_$(echo ${pppdir} | cut -d_ -f2)"
-      else
-         ext=
-      fi
       cp2kfile=${ppdir}/CP2K
       cpmdfile=${ppdir}/CPMD
       abinitfile=${ppdir}/ABINIT
       texfile=${ppdir}/TEXTAB
+      pppdir=$(basename $(dirname ${ppdir}))
+      if [[ ${pppdir} == *_* ]]; then
+         ext="_$(echo ${pppdir} | cut -d_ -f2)"
+         sed -e "1s/$/${ext}/" -i ${cp2kfile}
+      else
+         ext=
+      fi
       cpmdlibfile=${cpmdlibpath}/${xcfun}/${el}-q${q}${ext}
       cp2klibfile=${cp2klibpath}/${xcfun}/${el}-q${q}${ext}
       abinitlibfile=${abinitlibpath}/${xcfun}/${el}-q${q}${ext}
