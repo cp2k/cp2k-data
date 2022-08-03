@@ -1,7 +1,7 @@
 #!/bin/sh
 #
-  potential_file=$(pwd)/../cp2k/GTH_POTENTIALS
-  cat <<*** >${potential_file}
+potential_file=$(pwd)/../cp2k/GTH_POTENTIALS
+cat <<*** >${potential_file}
 ################################################################################
 #
 # Potential data base file for CP2K (Quickstep)
@@ -54,10 +54,10 @@
 # hprj_ppnl: Coefficients of the non-local projector functions
 #
 ***
-  for xcfun in blyp bp hcth120 hcth407 pade pbe pbesol olyp; do
-    cd ../cp2k/${xcfun}
-    XCFUN=$(echo ${xcfun} | tr [:lower:] [:upper:])
-    cat <<*** >>${potential_file}
+for xcfun in blyp bp hcth120 hcth407 pade pbe pbesol olyp; do
+   cd ../cp2k/${xcfun}
+   XCFUN=$(echo ${xcfun} | tr [:lower:] [:upper:])
+   cat <<*** >>${potential_file}
 ################################################################################
 #
 # ${XCFUN} functional
@@ -65,21 +65,21 @@
 ################################################################################
 #
 ***
-    for e in H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar\
-             K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se\
-             Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn\
-             Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy\
-             Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb\
-             Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf\
-             Es Fm Md No Lr; do
+   for e in H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar\
+            K Ca Sc Ti V Cr Mn Fe Co Ni Cu Zn Ga Ge As Se\
+            Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn\
+            Sb Te I Xe Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy\
+            Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb\
+            Bi Po At Rn Fr Ra Ac Th Pa U Np Pu Am Cm Bk Cf\
+            Es Fm Md No Lr; do
       for f in $(ls ${e}-q* 2>/dev/null); do
-        if [[ -s ${f} ]]; then
-          cat $f >>${potential_file}
-          echo "#" >>${potential_file}
-        fi
+         if [[ -s ${f} ]]; then
+            cat ${f} >>${potential_file}
+            echo "#" >>${potential_file}
+         fi
       done
-    done
-    cd - >/dev/null
-  done
-  set_default_pp.sh ${potential_file}
-  echo New CP2K/Quickstep PP database file created
+   done
+   cd - >/dev/null
+done
+set_default_pp.sh ${potential_file}
+echo New CP2K/Quickstep PP database file created
