@@ -1,6 +1,9 @@
 # Revised Goedecker-Teter-Hutter (GTH) pseudopotentials
 #
-# Author: Matthias Krack (25.03.2022, PSI)
+# Author: Matthias Krack (PSI)
+#
+# History: - Initial set (H to Ne) of revised GTH PPs (25.03.2022, MK)
+#          - Fe-q16 for PBE added (06.10.2022, MK)
 #
 H GTH-PBE-q1
     1
@@ -70,4 +73,14 @@ Ne GTH-PBE-q8
     2
      0.17591257    1    33.19429702
      0.14111991    1     5.68428600
+#
+Fe GTH-PBE-q16
+    4    6    6
+     0.24000000    2    24.54412018    10.82007172
+    3
+     0.24613916    2     0.40031493     8.50189362
+                                      -10.97589746
+     0.19994269    2   -18.95371737    23.46433349
+                                      -27.76337379
+     0.20242951    1   -18.22841326
 #
