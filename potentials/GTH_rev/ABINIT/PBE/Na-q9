@@ -1,0 +1,8 @@
+Goedecker-Teter-Hutter (GTH) pseudopotential for Na (M. Krack, PSI)
+   11   9  20221006                                                               znucl zion pspdat
+   10  11  1 2 2001 0                                                             pspcod pspxc lmax lloc mmax r2well
+     0.18000000    2    -8.87992393     3.94443828                                rloc nloc c1 c2
+    2                                                                             nnonloc
+     0.14024412    1    38.69439882                                               rs ns hs11
+     0.14800396    1    -7.53326705                                               rp np hp11
+                         0.03168706                                                     kp11

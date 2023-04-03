@@ -3,7 +3,7 @@
 # Author: Matthias Krack (PSI)
 #
 # History: - Initial set (H to Ne) of revised GTH PPs (25.03.2022, MK)
-#          - Fe-q16 for PBE added (06.10.2022, MK)
+#          - Na-q9 and Fe-q16 for PBE added (06.10.2022, MK)
 #
 H GTH-PBE-q1
     1
@@ -73,6 +73,13 @@ Ne GTH-PBE-q8
     2
      0.17591257    1    33.19429702
      0.14111991    1     5.68428600
+#
+Na GTH-PBE-q9
+    3    6
+     0.18000000    2    -8.87992393     3.94443828
+    2
+     0.14024412    1    38.69439882
+     0.14800396    1    -7.53326705
 #
 Fe GTH-PBE-q16
     4    6    6
