@@ -11,13 +11,15 @@ fi
 ./gth_pp_convert.sh
 
 # Copy all XX files to the database in ../cpmd
-# copy all CP2K files to the database in ../cp2k
-# copy all ABINIT files to the database in ../abinit
+# Copy all CP2K files to the database in ../cp2k
+# Copy all ABINIT files to the database in ../abinit
 ./collect_files.sh $1
 
 # Remove files in the build/ tree
 echo Removing all the CP2K files in the build/ tree ...
 find ../build -name CP2K -exec rm {} \;
+echo Removing all the CP2K_SOC files in the build/ tree ...
+find ../build -name CP2K_SOC -exec rm {} \;
 echo Removing all the ABINIT files in the build/ tree ...
 find ../build -name ABINIT -exec rm {} \;
 echo Removing all the CPMD files in the build/ tree ...
@@ -29,6 +31,10 @@ find ../build -name TEXTAB -exec rm {} \;
 
 # Create a new GTH_POTENTIALS database file for CP2K/Quickstep
 ./create_cp2k_potential_file.sh
+
+# Create a new GTH_POTENTIALS_SOC database file for CP2K/Quickstep
+./create_cp2k_soc_potential_file.sh
+
 if [[ $1 == "tex" ]]; then
    ./create_tex_file.sh
 else

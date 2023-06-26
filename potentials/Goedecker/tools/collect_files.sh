@@ -4,21 +4,23 @@
 #
 typeset -i line1=0 line2=0
 cp2klibpath=../cp2k
+cp2ksoclibpath=../cp2k_soc
 cpmdlibpath=../cpmd
 abinitlibpath=../abinit
 texlibpath=../tex
 cd ../build
-echo Collecting new XX, CP2K, and ABINIT files ...
+echo Collecting new XX, CP2K, CP2K_SOC, and ABINIT files ...
 for xcfun in blyp bp hcth120 hcth407 pade pbe pbesol olyp; do
-   if [[ ! -d $(pwd)/${texlibpath}/${xcfun} ]]; then
-      mkdir -p $(pwd)/${texlibpath}/${xcfun}
-   fi
+   for d in ${cp2klibpath} ${cp2ksoclibpath} ${cpmdlibpath} ${abinitlibpath} ${texlibpath}; do
+      [[ ! -d $(pwd)/${d}/${xcfun} ]] && mkdir -p $(pwd)/${d}/${xcfun}
+   done
    for xxfile in $(find ${xcfun} -name XX); do
       el=$(echo ${xxfile} | cut -d"/" -f2)
       q=$(head -3 ${xxfile} | tail -n 1 | cut -d"=" -f2 | cut -d"." -f1)
       q=$(echo ${q})
       ppdir=$(dirname ${xxfile})
       cp2kfile=${ppdir}/CP2K
+      cp2ksocfile=${ppdir}/CP2K_SOC
       cpmdfile=${ppdir}/CPMD
       abinitfile=${ppdir}/ABINIT
       texfile=${ppdir}/TEXTAB
@@ -26,11 +28,13 @@ for xcfun in blyp bp hcth120 hcth407 pade pbe pbesol olyp; do
       if [[ ${pppdir} == *_* ]]; then
          ext="_$(echo ${pppdir} | cut -d_ -f2)"
          sed -e "1s/$/${ext}/" -i ${cp2kfile}
+         sed -e "1s/$/${ext}/" -i ${cp2ksocfile}
       else
          ext=
       fi
       cpmdlibfile=${cpmdlibpath}/${xcfun}/${el}-q${q}${ext}
       cp2klibfile=${cp2klibpath}/${xcfun}/${el}-q${q}${ext}
+      cp2ksoclibfile=${cp2ksoclibpath}/${xcfun}/${el}-q${q}${ext}
       abinitlibfile=${abinitlibpath}/${xcfun}/${el}-q${q}${ext}
       texlibfile=${texlibpath}/${xcfun}/${el}-q${q}${ext}
       line1=$(grep -n "&POTENTIAL" $xxfile | cut -f1 -d":")
@@ -55,6 +59,15 @@ for xcfun in blyp bp hcth120 hcth407 pade pbe pbesol olyp; do
       else
          mv $cp2kfile $cp2klibfile
          echo "New file $cp2kfile was moved to $cp2klibfile"
+      fi
+      if [[ -f $cp2ksoclibfile ]]; then
+         if [[ -n $(diff $cp2ksocfile $cp2ksoclibfile) ]]; then
+            mv $cp2ksocfile $cp2ksoclibfile
+            echo "Changed file $cp2ksocfile was moved to $cp2ksoclibfile"
+         fi
+      else
+         mv $cp2ksocfile $cp2ksoclibfile
+         echo "New file $cp2ksocfile was moved to $cp2ksoclibfile"
       fi
       if [[ -f $abinitlibfile ]]; then
          if [[ -n $(diff $abinitfile $abinitlibfile) ]]; then

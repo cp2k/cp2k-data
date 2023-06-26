@@ -4,8 +4,10 @@ PROGRAM gth_pp_convert
   !          generation of Goedecker-Teter-Hutter (GTH) pseudo potentials to
   !          the Quickstep and Abinit potential database format.
 
-  ! History: - Creation (12.12.2003,MK)
-  !          - ABINIT format output added (27.02.07,MK)
+  ! History: - Creation (12.12.2003, MK)
+  !          - ABINIT format output added (27.02.2007, MK)
+  !          - CP2K output with spin-orbit coupling (SOC) parameters added
+  !            (26.06.2023, MK)
 
   ! ***************************************************************************
 
@@ -20,8 +22,9 @@ PROGRAM gth_pp_convert
                         unit_info     = 12,&
                         unit_psp_par  = 13,&
                         unit_cp2k     = 14,&
-                        unit_textab   = 15,&
-                        unit_xx       = 16
+                        unit_cp2k_soc = 15,&
+                        unit_textab   = 16,&
+                        unit_xx       = 17
 
   REAL(KIND=wp), PARAMETER :: eps_zero = 1.0E-8_wp
 
@@ -156,6 +159,19 @@ PROGRAM gth_pp_convert
         IOSTAT=istat)
   IF (istat /= 0) THEN
     PRINT*,"ERROR: Could not open the output file CP2K"
+    STOP
+  END IF
+
+  OPEN (UNIT=unit_cp2k_soc,&
+        FILE="CP2K_SOC",&
+        STATUS="REPLACE",&
+        ACCESS="SEQUENTIAL",&
+        FORM="FORMATTED",&
+        POSITION="REWIND",&
+        ACTION="WRITE",&
+        IOSTAT=istat)
+  IF (istat /= 0) THEN
+    PRINT*,"ERROR: Could not open the output file CP2K_SOC"
     STOP
   END IF
 
@@ -531,12 +547,18 @@ PROGRAM gth_pp_convert
   WRITE (UNIT=unit_cp2k,FMT="(A,1X,A)")&
     TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))//&
     " GTH-LDA-q"//TRIM(ADJUSTL(string))
+  WRITE (UNIT=unit_cp2k_soc,FMT="(A,1X,A)")&
+    TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))//&
+    " GTH-LDA-q"//TRIM(ADJUSTL(string))
   ELSE
     WRITE (UNIT=unit_cp2k,FMT="(A,1X,A)")&
+      TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))
+    WRITE (UNIT=unit_cp2k_soc,FMT="(A,1X,A)")&
       TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))
   END IF
 
   WRITE (UNIT=unit_cp2k,FMT="(A)") TRIM(elec_string)
+  WRITE (UNIT=unit_cp2k_soc,FMT="(A)") TRIM(elec_string)
 
   ! Set output precision for the database files
 
@@ -549,7 +571,10 @@ PROGRAM gth_pp_convert
   WRITE (UNIT=fmtstr2(11:11),FMT="(I1)") idigits
 
   WRITE (UNIT=unit_cp2k,FMT=fmtstr1) rloc,nppl,(cppl(i),i=1,nppl)
+  WRITE (UNIT=unit_cp2k_soc,FMT=fmtstr1) rloc,nppl,(cppl(i),i=1,nppl)
   WRITE (UNIT=unit_cp2k,FMT="(I5)") nppnl_max
+  WRITE (UNIT=unit_cp2k_soc,FMT="(I5)") nppnl_max
+  ! Projector output without spin-orbit coupling (SOC) parameters
   DO ippnl=1,nppnl_max
     WRITE (UNIT=unit_cp2k,FMT=fmtstr1)&
       rppnl(ippnl),xx_nppnl(ippnl),(hppnl(1,j,ippnl),j=1,xx_nppnl(ippnl))
@@ -557,6 +582,21 @@ PROGRAM gth_pp_convert
       WRITE (UNIT=fmtstr2(3:4),FMT="(I2)") 15*i + 6
       WRITE (UNIT=unit_cp2k,FMT=fmtstr2) (hppnl(i,j,ippnl),j=i,xx_nppnl(ippnl))
     END DO
+  END DO
+  ! Projector output with spin-orbit coupling (SOC) parameters
+  DO ippnl=1,nppnl_max
+    WRITE (UNIT=unit_cp2k_soc,FMT=fmtstr1)&
+      rppnl(ippnl),nppnl(ippnl),(hppnl(1,j,ippnl),j=1,nppnl(ippnl))
+    DO i=2,nppnl(ippnl)
+      WRITE (UNIT=fmtstr2(3:4),FMT="(I2)") 15*i + 6
+      WRITE (UNIT=unit_cp2k_soc,FMT=fmtstr2) (hppnl(i,j,ippnl),j=i,nppnl(ippnl))
+    END DO
+    IF (ippnl > 1) THEN
+      DO i=1,nppnl(ippnl)
+        WRITE (UNIT=fmtstr2(3:4),FMT="(I2)") 15*i + 6
+        WRITE (UNIT=unit_cp2k_soc,FMT=fmtstr2) (kppnl(i,j,ippnl),j=i,nppnl(ippnl))
+      END DO
+    END IF
   END DO
 
   ! Write ABINIT database file
@@ -568,7 +608,7 @@ PROGRAM gth_pp_convert
   WRITE (UNIT=unit_abinit,FMT="(I2,2I3,I2,I5,I2,A)")&
     10,xc_code_abinit,lppnl_max,MAX(0,2*(nppl-1)),2001,0,&
     "  pspcod,pspxc,lmax,lloc,mmax,r2well"
-  line = " "
+  line = ""
   WRITE (UNIT=line,FMT=fmtstr1)&
     rloc,nppl,(cppl(i),i=1,nppl)
   WRITE (UNIT=line(85:),FMT="(A,4(A2,I1))")&
@@ -577,7 +617,7 @@ PROGRAM gth_pp_convert
   WRITE (UNIT=unit_abinit,FMT="(I5,T85,A)")&
     nppnl_max,"nnonloc"
   DO ippnl=1,nppnl_max
-    line = " "
+    line = ""
     WRITE (UNIT=line,FMT=fmtstr1)&
       rppnl(ippnl),nppnl(ippnl),(hppnl(1,j,ippnl),j=1,nppnl(ippnl))
     WRITE (UNIT=line(85:),FMT="(A,3(A3,I2))")&
@@ -586,7 +626,7 @@ PROGRAM gth_pp_convert
     WRITE (UNIT=unit_abinit,FMT="(A)") TRIM(line)
     DO i=2,nppnl(ippnl)
       WRITE (UNIT=fmtstr2(3:4),FMT="(I2)") 15*i + 6
-      line = " "
+      line = ""
       WRITE (UNIT=line,FMT=fmtstr2)&
         (hppnl(i,j,ippnl),j=i,nppnl(ippnl))
       WRITE (UNIT=line(85+5*i:),FMT="(3(A3,I2))")&
@@ -596,7 +636,7 @@ PROGRAM gth_pp_convert
     IF (ippnl > 1) THEN
       DO i=1,nppnl(ippnl)
         WRITE (UNIT=fmtstr2(3:4),FMT="(I2)") 15*i + 6
-        line = " "
+        line = ""
         WRITE (UNIT=line,FMT=fmtstr2)&
           (kppnl(i,j,ippnl),j=i,nppnl(ippnl))
         WRITE (UNIT=line(85+5*i:),FMT="(3(A3,I2))")&

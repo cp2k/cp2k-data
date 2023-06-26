@@ -1,22 +1,17 @@
 #!/bin/sh
 #
-potential_file=$(pwd)/../cp2k/GTH_POTENTIALS
+potential_file=$(pwd)/../cp2k_soc/GTH_POTENTIALS_SOC
 cat <<*** >${potential_file}
 ################################################################################
 #
-# Potential data base file for CP2K (Quickstep)
+# Potential database file for CP2K/Quickstep with spin-orbit coupling parameters
 #
 ################################################################################
 #
 # Pseudopotentials of Goedecker, Teter and Hutter (GTH)
 # -----------------------------------------------------
 #
-# History:    - Creation (12.12.1999, Matthias Krack)
-#             - Electronic configurations added (11.05.2000, MK)
-#             - GTH-PP for first-row transition metal added (18.03.2003, MK)
-#             - Automatic update (16.12.2003, MK)
-#             - PBE GTH-PPs for the Lanthanides added (30.11.2012, MK)
-#             - Set default GTH PPs (12.08.2016, MK)
+# History:    - Creation (26.06.2023, Matthias Krack)
 #             - Last update ($(date +%d.%m.%Y), MK)
 #
 # Literature: - S. Goedecker, M. Teter, and J. Hutter,
@@ -34,10 +29,13 @@ cat <<*** >${potential_file}
 # nprj
 # r(1)    nprj_ppnl(1)    ((hprj_ppnl(1,i,j),j=i,nprj_ppnl(1)),i=1,nprj_ppnl(1))
 # r(2)    nprj_ppnl(2)    ((hprj_ppnl(2,i,j),j=i,nprj_ppnl(2)),i=1,nprj_ppnl(2))
+#                         ((kprj_ppnl(2,i,j),j=i,kprj_ppnl(2)),i=1,nprj_ppnl(2))
 #  .       .               .
 #  .       .               .
 #  .       .               .
 # r(nprj) nprj_ppnl(nprj) ((hprj_ppnl(nprj,i,j),j=i,nprj_ppnl(nprj)),
+#                                               i=1,nprj_ppnl(nprj))
+#                         ((kprj_ppnl(nprj,i,j),j=i,nprj_ppnl(nprj)),
 #                                               i=1,nprj_ppnl(nprj))
 #
 # n_elec   : Number of electrons for each angular momentum quantum number
@@ -52,10 +50,11 @@ cat <<*** >${potential_file}
 # nprj_ppnl: Number of the non-local projectors for the angular momentum
 #            quantum number l
 # hprj_ppnl: Coefficients of the non-local projector functions
+# kprj_ppnl: Coefficients of the non-local projector functions (spin-orbit part)
 #
 ***
 for xcfun in blyp bp hcth120 hcth407 pade pbe pbesol olyp; do
-   cd ../cp2k/${xcfun}
+   cd ../cp2k_soc/${xcfun}
    XCFUN=$(echo ${xcfun} | tr [:lower:] [:upper:])
    cat <<*** >>${potential_file}
 ################################################################################
