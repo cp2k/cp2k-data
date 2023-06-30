@@ -32,7 +32,7 @@ find ../build -name TEXTAB -exec rm {} \;
 # Create a new GTH_POTENTIALS database file for CP2K/Quickstep
 ./create_cp2k_potential_file.sh
 
-# Create a new GTH_POTENTIALS_SOC database file for CP2K/Quickstep
+# Create a new GTH_SOC_POTENTIALS database file for CP2K/Quickstep
 ./create_cp2k_soc_potential_file.sh
 
 if [[ $1 == "tex" ]]; then

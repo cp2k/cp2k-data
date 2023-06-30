@@ -573,7 +573,7 @@ PROGRAM gth_pp_convert
   WRITE (UNIT=unit_cp2k,FMT=fmtstr1) rloc,nppl,(cppl(i),i=1,nppl)
   WRITE (UNIT=unit_cp2k_soc,FMT=fmtstr1) rloc,nppl,(cppl(i),i=1,nppl)
   WRITE (UNIT=unit_cp2k,FMT="(I5)") nppnl_max
-  WRITE (UNIT=unit_cp2k_soc,FMT="(I5)") nppnl_max
+  WRITE (UNIT=unit_cp2k_soc,FMT="(I5,2X,A)") nppnl_max, "SOC"
   ! Projector output without spin-orbit coupling (SOC) parameters
   DO ippnl=1,nppnl_max
     WRITE (UNIT=unit_cp2k,FMT=fmtstr1)&
