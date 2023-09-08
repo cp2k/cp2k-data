@@ -42,7 +42,7 @@ PROGRAM gth_pp_convert
   CHARACTER(LEN=17)  :: fmtstr1
   CHARACTER(LEN=16)  :: fmtstr3
   CHARACTER(LEN=12)  :: fmtstr2,xc_string,xcf_psp_par
-  REAL(KIND=wp)      :: nelec,rloc,q,xx_rloc,xx_z,xx_zeff,z,zeff
+  REAL(KIND=wp)      :: ionic_charge,nelec,rloc,q,xx_rloc,xx_z,xx_zeff,z,zeff
   INTEGER            :: i,idigits,ippnl,istat,iz,izeff,j,l,lmax,lppnl_max,n,&
                         narg,ncore,nppl,nppnl_max,nvalence,xc_code,xc_code_abinit
 
@@ -475,9 +475,10 @@ PROGRAM gth_pp_convert
   WRITE (UNIT=unit_info,FMT="(A,A)")&
     " Electronic configuration (s,p,d,...): ",TRIM(elec_string)
 
-  IF (ABS(zeff - nelec) > eps_zero) THEN
+  ionic_charge = zeff - nelec
+  IF (ABS(ionic_charge) > eps_zero) THEN
     WRITE (UNIT=unit_info,FMT="(A,F8.3)")&
-      " Ionic charge                        : ",zeff - nelec
+      " Ionic charge                        : ",ionic_charge
   END IF
 
   ! TeX tabular format (TEXTAB)
@@ -544,6 +545,12 @@ PROGRAM gth_pp_convert
   string = ""
 
   WRITE (UNIT=string,FMT="(I5)") izeff
+  IF (ABS(ionic_charge) > eps_zero) THEN
+    WRITE (UNIT=unit_cp2k,FMT="(A,F0.6)")&
+      "# Set CORE_CORRECTION ",ionic_charge
+    WRITE (UNIT=unit_cp2k_soc,FMT="(A,F0.6)")&
+      "# Set CORE_CORRECTION ",ionic_charge
+  END IF
   IF (xc_string == "PADE") THEN
   WRITE (UNIT=unit_cp2k,FMT="(A,1X,A)")&
     TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))//&
