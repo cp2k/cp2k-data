@@ -277,7 +277,7 @@ PROGRAM gth_pp_convert
     xc_string = "REVPBE"
     xc_code_abinit = 0
   CASE (0997,1197)
-    xc_string = "PBESol"
+    xc_string = "PBESOL"
     xc_code_abinit = 0
   CASE (0934,1134)
     xc_string = "PBE"
@@ -420,6 +420,7 @@ PROGRAM gth_pp_convert
     STOP
   END IF
   READ (UNIT=unit_atom_dat,FMT="(A)") string
+  CALL uppercase(string)
   IF (TRIM(ADJUSTL(string)) /= xc_string) THEN
     PRINT*,"ERROR: Mismatching XC functionals found in the input files"
     STOP
@@ -694,5 +695,29 @@ PROGRAM gth_pp_convert
     " - M. Krack,",&
     "   Theor. Chem. Acc. 114, 145 (2005)",&
     " "//REPEAT("*",64)
+
+CONTAINS
+
+! **************************************************************************************************
+!> \brief   Convert all lower case characters in a string to upper case.
+!> \param string ...
+!> \date    22.06.1998
+!> \author  MK
+!> \version 1.0
+! **************************************************************************************************
+   ELEMENTAL SUBROUTINE uppercase(string)
+
+      CHARACTER(LEN=*), INTENT(INOUT) :: string
+
+      INTEGER                         :: i, iascii
+
+      DO i = 1, LEN_TRIM(string)
+         iascii = ICHAR(string(i:i))
+         IF ((iascii >= 97) .AND. (iascii <= 122)) THEN
+            string(i:i) = CHAR(iascii - 32)
+         END IF
+      END DO
+
+   END SUBROUTINE uppercase
 
 END PROGRAM gth_pp_convert
