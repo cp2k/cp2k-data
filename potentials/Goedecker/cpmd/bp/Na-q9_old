@@ -1,7 +1,7 @@
  &ATOM
-  Z  =     11.000000000000000     
-  ZV =     9.0000000000000000     
-  XC = 1134   0.6666666667
+  Z  =   11.0000000000000000
+  ZV =   9.00000000000000000
+  XC = 1111    .6666666667
   TYPE = NORMCONSERVING GOEDECKER
  &END
  &INFO
@@ -15,15 +15,15 @@
  Number of valence states            :  12
  Electronic configuration (s,p,d,...):     3    6
 
- Exchange-correlation functional     : PBE
+ Exchange-correlation functional     : BP
 
        r(loc)         C(1)         C(2)
-     0.180000    -8.879924     3.944438
+     0.210332     1.692589     0.503580
 
          r(0)     h(i,j)^0
-     0.140244    38.694399
+     0.131731    40.129336
          r(1)     h(i,j)^1
-     0.148004    -7.533267
+     0.140673   -12.691904
 
  Please cite:
 
@@ -38,9 +38,9 @@
  &END
  &POTENTIAL
      GOEDECKER
-           2                                    LMAX
-      0.180000000                                 RC
-   2    -8.879923931     3.944438277   #C  C1 C2
-      0.140244120  1  38.694398820 H(s) 11                 
-      0.148003960  1  -7.533267054 H(p) 11                 
+ 2                                    LMAX
+       .210332210                                 RC
+   2     1.692588503      .503579810   #C  C1 C2
+       .131730538  1  40.129336080 H(s) 11                 
+       .140673374  1 -12.691903523 H(p) 11                 
  &END

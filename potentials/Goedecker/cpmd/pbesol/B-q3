@@ -15,7 +15,7 @@
  Number of valence states            :   9
  Electronic configuration (s,p,d,...):     2    1
 
- Exchange-correlation functional     : PBESol
+ Exchange-correlation functional     : PBESOL
 
        r(loc)         C(1)         C(2)
      0.421882    -5.991945     0.946582
