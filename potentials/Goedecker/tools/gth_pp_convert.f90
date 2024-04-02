@@ -552,12 +552,12 @@ PROGRAM gth_pp_convert
       "# Set CORE_CORRECTION ",ionic_charge
   END IF
   IF (xc_string == "PADE") THEN
-  WRITE (UNIT=unit_cp2k,FMT="(A,1X,A)")&
-    TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))//&
-    " GTH-LDA-q"//TRIM(ADJUSTL(string))
-  WRITE (UNIT=unit_cp2k_soc,FMT="(A,1X,A)")&
-    TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))//&
-    " GTH-LDA-q"//TRIM(ADJUSTL(string))
+    WRITE (UNIT=unit_cp2k,FMT="(A,1X,A)")&
+      TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))//&
+      " GTH-LDA-q"//TRIM(ADJUSTL(string))
+    WRITE (UNIT=unit_cp2k_soc,FMT="(A,1X,A)")&
+      TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))//&
+      " GTH-LDA-q"//TRIM(ADJUSTL(string))
   ELSE
     WRITE (UNIT=unit_cp2k,FMT="(A,1X,A)")&
       TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))

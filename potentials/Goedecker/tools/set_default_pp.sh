@@ -306,9 +306,9 @@ do
    ppnames=${token_list[@]:1}
    for ppname in ${ppnames}
    do
-      default_ppnames+=" "${ppname%-q[0-9]*}
+      default_ppnames+=" "${ppname%-q*[0-9]*}
    done
-   sed -i "s/${element} \+${ppnames}.*/${element} ${ppnames}${default_ppnames}/" ${ppfile}
+   sed -i "s/${element} ${ppnames}$/${element} ${ppnames}${default_ppnames}/" ${ppfile}
 done
 
 #EOF
