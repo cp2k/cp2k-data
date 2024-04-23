@@ -3587,6 +3587,7 @@ C..Correlation
         W1=0.74D0
         CALL PBEC(RHO,GRHO,W1,SC,V1C,V2C)
       ELSEIF(MGCC.EQ.7) THEN
+        W1=1.0D0
         CALL PBESC(RHO,GRHO,W1,SC,V1C,V2C)
       ELSE
         SC=0.0D0
