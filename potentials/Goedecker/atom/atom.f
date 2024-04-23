@@ -538,7 +538,7 @@ c     and convergence problems
 c
 c      add potential from shell charge
 c
- 105   if (zsh .eq. 0.D0) return
+ 105   if (ABS(zsh) <= EPSILON(0.0D0)) return
        do 110 i=1,lmax
        do 110 j=1,nr
        if (r(j) .ge. rsh) viod(i,j) = viod(i,j) - 2*zsh
@@ -1095,7 +1095,7 @@ c
      2        ' number of valence orbitals =',i3,/,
      3        ' electronic charge          =',f10.6,/,
      4        ' ionic charge               =',f10.6,//)
-       if (zsh .ne. 0.D0) write(6,175) zsh,rsh
+       if (ABS(zsh) > EPSILON(0.0D0)) write(6,175) zsh,rsh
  175   format(' shell charge =',f6.2,' at radius =',f6.2,//)
        write(6,180)
  180   format(' input data for orbitals'//,
