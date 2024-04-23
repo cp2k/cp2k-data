@@ -419,7 +419,7 @@ c
 c      compute interaction shell - (nucleus-core)
 c
        esh = 0.D0
-       if (zsh .ne. 0.D0) esh = 2*zsh*(znuc-zcore)/rsh
+       if (ABS(zsh) > EPSILON(0.0D0)) esh = 2*zsh*(znuc-zcore)/rsh
 c
 c      kinetic energy
 c

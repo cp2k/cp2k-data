@@ -1,6 +1,11 @@
 Building atom.x (e.g. with the GFortran compiler):
 
-gfortran -O2 -g hcth.f90 xc_b97.f90 atom.f -o atom.x
+Run "gcc -dumpversion" to get the default compiler version.
+
+gcc version <= 8:
+ gfortran -O2 -g hcth.f90 xc_b97.f90 atom.f -o atom.x
+gcc version  > 8:
+ gfortran -fallow-argument-mismatch -ffpe-summary=none -O2 -g hcth.f90 xc_b97.f90 atom.f -o atom.x
 
 ***********************************************************
 *                                                         *
