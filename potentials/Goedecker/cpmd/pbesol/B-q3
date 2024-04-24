@@ -1,6 +1,6 @@
  &ATOM
-  Z  =   5.
-  ZV =   3.
+  Z  =     5.0000000000000000     
+  ZV =     3.0000000000000000     
   XC = 1197   0.6666666667
   TYPE = NORMCONSERVING GOEDECKER
  &END
@@ -12,16 +12,16 @@
  Atomic number                       :   5
  Effective core charge               :   3
  Number of core states               :   1
- Number of valence states            :   9
+ Number of valence states            :  11
  Electronic configuration (s,p,d,...):     2    1
 
  Exchange-correlation functional     : PBESOL
 
        r(loc)         C(1)         C(2)
-     0.421882    -5.991945     0.946582
+     0.418788    -5.730626     0.847892
 
          r(0)     h(i,j)^0
-     0.371861     6.292084
+     0.371947     6.276452
 
  Please cite:
 
@@ -36,9 +36,9 @@
  &END
  &POTENTIAL
      GOEDECKER
- 2                                    LMAX
-      0.421881657                                 RC
-   2    -5.991944954     0.946581985   #C  C1 C2
-      0.371860690  1   6.292083761 H(s) 11                 
-      0.362875821  0 H(p) no projector       
+           2                                    LMAX
+      0.418787733                                 RC
+   2    -5.730626412     0.847891814   #C  C1 C2
+      0.371947240  1   6.276451623 H(s) 11                 
+      0.554722046  0 H(p) no projector       
  &END
