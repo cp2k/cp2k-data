@@ -3,9 +3,11 @@ Building atom.x (e.g. with the GFortran compiler):
 Run "gcc -dumpversion" to get the default compiler version.
 
 gcc version <= 8:
- gfortran -O2 -g hcth.f90 xc_b97.f90 atom.f -o atom.x
+ gfortran -cpp -O2 -g hcth.f90 xc_b97.f90 atom.f -o atom.x
 gcc version  > 8:
- gfortran -fallow-argument-mismatch -ffpe-summary=none -O2 -g hcth.f90 xc_b97.f90 atom.f -o atom.x
+ gfortran -cpp -fallow-argument-mismatch -ffpe-summary=none -O2 -g hcth.f90 xc_b97.f90 atom.f -o atom.x
+
+Add -D_LD1 or -D_NIST flag for comparison with QE LD1 code or NIST reference
 
 ***********************************************************
 *                                                         *
@@ -21,36 +23,36 @@ additional parabolic confining potential. The program reads its input
 from a file named 'atom.dat'. The file 'atom.dat' must have the
 following structure:
 
- Ne                             element symbol (1.st line)
- PADE                           XC functional
- r                              r=relativistic/n=nonrelativistic calc. 
- 60      10 30.0                rmax,aa,bb 
- 1.3d0   50.0			rcov,rprb
- 1    3				number of core and valence orbitals
- 2    0     2.00      0.00      n,l,occup(up)  1.st orbital
- 2    1     6.00      0.00	n,l,occup(up)  2.nd orbital
- 3    0     0.00      0.00      n,l,occup(up)  3.st orbital
+ Ne                               element symbol (1st line)
+ PBE                              XC functional
+ relativistic                     r=relativistic / n=nonrelativistic calculation
+      40.0     10.00     70.00    rmax,aa,bb
+                1.30      8.00    rcov,rprb
+    1    3                        number of core and valence orbitals
+    2    0      2.00      0.00    n,l,occup(up) of 1st valence orbital
+    2    1      6.00      0.00    n,l,occup(up) of 2nd valence orbital
+    3    0      0.00      0.00    n,l,occup(up) of 3rd valence orbital
 
 If strings are read from 'atom.dat' they must stand in column 1 to 10;
 for numbers free format is used.
 
-1st. line: guess.....
+1st line: guess.....
 
-2nd. line: XC functional; at the moment the following xc functionals
+2nd line: XC functional; at the moment the following xc functionals
 are implemented: LDA, PADE (S. GOEDECKER, M. TETER, J. HUTTER, PRB
 54,N3,1703 (1996)), BONL, BP, PW, PBE, and BLYP. For additional
 functionals read the section 'Informations/hints'.
 
-3rd. line determines whether a fully relativistic or classic
+3rd line determines whether a fully relativistic or classic
 calculation is performed.
 
-4th. line : parameters for the radial integration grid. If a value is
+4th line : parameters for the radial integration grid. If a value is
 zero the program uses default values. rmax is the outermost grid
 point; the parameters aa and bb determine the step size (larger values
 result in finer grids). The parameter aa is modified by the program so
 that one grid point matches exactly rcov.
 
-5th. line: the program integrates charge densities and additional
+5th line: the program integrates charge densities and additional
 quantities for each wavefunction from 0 up to rcov. rprb determines
 the parabolic confining potential: v_conf(r)= 1/(2*rprb**4) * r**2.
 Choose rcov so that for the most important valence states the
@@ -58,7 +60,7 @@ integrated charge density at rcov is approximately between 0.1e and
 0.7e. In most cases the covalent radius of the atom is a good choice
 for rcov. Choose rprb ~ 2*rcov.
 
-6th. line: number of core and valence orbitals. Only the valence
+6th line: number of core and valence orbitals. Only the valence
 orbitals that are used for the pseudopotential generation have to be
 listed in the following lines.
 
@@ -71,22 +73,22 @@ configuration  has to be included in the file 'atom.dat'. Example for
 a Ne(1+)-Ion:
 
  NEXT CONFIGURATION
- 2    0     2.00      0.00      n,l,occup(up)  1.st orbital
- 2    1     5.00      0.00	n,l,occup(up)  2.nd orbital
- 3    0     0.00      0.00      n,l,occup(up)  3.st orbital
+ 2    0     2.00      0.00      n,l,occup(up) 1st orbital
+ 2    1     5.00      0.00      n,l,occup(up) 2nd orbital
+ 3    0     0.00      0.00      n,l,occup(up) 3st orbital
 
 Each configuration for an atom has the same list of orbitals only
 differing in the occupation numbers. Between different configurations
 the file 'atom.dat' may contain an arbitray number of blank lines. An
 simultaneous fit of a goedecker-pseudopotential to different
-configurations can be done with the program pseudo_2.3. 
+configurations can be done with the program pseudo_2.3.
 
 
 The program atm.f generates the following files:
 
-ae.1s.dat, ae.2s.dat,....      the all electron wavefunctions 
-atom.ae                        needed for pseudo_2.2/2.3, 
-                               contains all necessary data 
+ae.1s.dat, ae.2s.dat,....      the all electron wavefunctions
+atom.ae                        needed for pseudo_2.2/2.3,
+                               contains all necessary data
                                and wavefunctions
 psp.par                        needed for pseudo_2.2/2.3
 weights.par                    needed for pseudo_2.2/2.3
@@ -97,14 +99,14 @@ The program calculates for each orbital:
 eigenvalue
 psi(r)
 non relativistic case:
-	charge(rcov) = int_0^rcov psi^2 r^2 dr
-	dcharge      = int_0^infinity psi^2 r^4 dr
-	ddcharge     = int_0^infinity psi^2 r^6 dr
+   charge(rcov) = int_0^rcov psi^2 r^2 dr
+   dcharge      = int_0^infinity psi^2 r^4 dr
+   ddcharge     = int_0^infinity psi^2 r^6 dr
 relativistic case:
-	charge(rcov) = int_0^rcov g^2 r^2 dr          
+   charge(rcov) = int_0^rcov g^2 r^2 dr
                        +  int_0^infinity f^2 r^2 dr'
-	dcharge      = int_0^infinity (f^2+g^2) r^4 dr '          
-	ddcharge     = int_0^infinity (f^2+g^2) r^6 dr '          
+   dcharge      = int_0^infinity (f^2+g^2) r^4 dr '
+   ddcharge     = int_0^infinity (f^2+g^2) r^6 dr '
         g(r): majority component, f(r): minority component
 All the data are written to 'atom.ae'
 
@@ -151,6 +153,3 @@ work.
 If one is interested in calculating dcharge and ddcharge by
 integrating only up to rcov modify the source code: search for the
 strings 'ddd' and 'dddd'.
-
-
-

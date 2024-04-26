@@ -703,7 +703,17 @@ C..functionals
          mgcx  = 0
          mgcc  = 0
        ELSE IF (INDEX(icorr,"VWN").NE.0) THEN
+CMK      QE LD1 code (sla-vwn)
          mfxcx = 1
+         mfxcc = 2
+         mgcx  = 0
+         mgcc  = 0
+       ELSE IF (INDEX(icorr,"NIST").NE.0) THEN
+CMK      Only for validation
+CMK      Check and adapt fine structure constant as needed for the comparison with
+CMK      NIST (see https://www.nist.gov/pml/atomic-reference-data-electronic-structure-calculations) or
+CMK      QE LD1 code (rxc-vwn)
+         mfxcx = 2
          mfxcc = 2
          mgcx  = 0
          mgcc  = 0
@@ -1785,9 +1795,7 @@ c  for the eigenvalues from dsolv1
 c
       implicit real*8 (a-h,o-z)
 c
-      parameter (ai=2*137.0360411d0)
-c
-c  Tolernce
+c  Tolerance
 c
       parameter (etol=-1.d-7)
       parameter (tol = 1.0d-14)
@@ -1798,6 +1806,17 @@ c
      3 fa(nr),fb(nr)
 c
       dimension rs(5)
+
+CMK   Original value for fine structure constant
+      ai=2*137.0360411D0
+CMK   QE LD1 value
+#if defined(_LD1)
+      ai=2*137.03599908D0
+#endif
+CMK   NIST value
+#if defined(_NIST)
+      ai=2*137.0359895D0
+#endif
 c
 c------Machine dependent parameter-
 c------Require exp(-2*expzer) to be within the range of the machine
@@ -2153,9 +2172,17 @@ c     work-arrays for integration, and xc-potential
       character*1 il(5)
       character*2 cnum
 c
-c
-c       ai = 2*137.04D0
-       ai=2*137.0360411d0
+c      ai = 2*137.04D0
+CMK   Original value for fine structure constant
+      ai=2*137.0360411D0
+CMK   QE LD1 value
+#if defined(_LD1)
+      ai=2*137.03599908D0
+#endif
+CMK   NIST value
+#if defined(_NIST)
+      ai=2*137.0359895D0
+#endif
        pi = 4.D0 * atan(1.D0)
        ka = lo(iorb)+1
        lp = ka
@@ -3423,8 +3450,12 @@ C     ==--------------------------------------------------------------==
      +         ,THIRD=1.D0/3.D0)
 C     ==--------------------------------------------------------------==
 C..Exchange
+      SALPHA = 2.0D0/3.0D0
       IF(MFXCX.EQ.1) THEN
         CALL SLATERX(RHO,EX,VX,SALPHA)
+      ELSE IF(MFXCX.EQ.2) THEN
+CMK     Corresponds to the functional rxc-vwn in QE LD1 code (NIST reference)
+        CALL RSLATERX(RHO,EX,VX,SALPHA)
       ELSE
         EX=0.0D0
         VX=0.0D0
@@ -3601,9 +3632,10 @@ C     ==================================================================
       SUBROUTINE SLATERX(RHO,EX,VX,ALPHA)
 C     ==--------------------------------------------------------------==
       IMPLICIT REAL*8 (A-H,O-Z)
-      PARAMETER (SMALL=1.D-10)
+      PARAMETER (SMALL=1.0D-10)
+CMK   F1 = -9/8*(3/pi)**(1/3)
       PARAMETER (F1 = -1.10783814957303361D0)
-      PARAMETER (THIRD=1.D0/3.D0,F43=4.D0/3.D0)
+      PARAMETER (THIRD=1.0D0/3.0D0,F43=4.0D0/3.0D0)
 C     ==--------------------------------------------------------------==
       IF(RHO.LE.SMALL) THEN
         EX = 0.0D0
@@ -3611,7 +3643,42 @@ C     ==--------------------------------------------------------------==
       ELSE
         RS = RHO**THIRD
         EX = F1*ALPHA*RS
-        VX = F43*F1*ALPHA*RS
+        VX = F43*EX
+      ENDIF
+C     ==--------------------------------------------------------------==
+      RETURN
+      END
+C     ==================================================================
+      SUBROUTINE RSLATERX(RHO,EX,VX,ALPHA)
+C     ==--------------------------------------------------------------==
+CMK   Relativistic Slater exchange (rxc in QE LD1 code)
+      IMPLICIT REAL*8 (A-H,O-Z)
+      PARAMETER (SMALL=1.0D-10)
+      PARAMETER (THIRD=1.0D0/3.0D0, PI=3.141592653589793D0)
+C     ==--------------------------------------------------------------==
+CMK   Original value for fine structure constant
+      C_AU = 137.0360411D0
+CMK   QE LD1 value
+#if defined(_LD1)
+      C_AU = 137.03599908D0
+#endif
+CMK   NIST value
+#if defined(_NIST)
+      C_AU = 137.0359895D0
+#endif
+      IF(RHO.LE.SMALL) THEN
+        EX = 0.0D0
+        VX = 0.0D0
+      ELSE
+        RS = (0.75D0/PI/RHO)**THIRD
+        A0 = (4.0D0/(9.0D0*PI))**THIRD
+        VXP = -1.5D0*ALPHA/(PI*A0*RS)
+        XP = 0.75D0*VXP
+        BETA = 1.0D0/A0/C_AU/RS
+        SB = SQRT(1.0D0 + BETA*BETA)
+        ALB = LOG(BETA + SB)
+        EX = XP*(1.0D0 - 1.5D0*((BETA*SB - ALB)/BETA**2)**2)
+        VX = VXP*(1.5D0*ALB/(BETA*SB) - 0.5D0)
       ENDIF
 C     ==--------------------------------------------------------------==
       RETURN
