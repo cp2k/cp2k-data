@@ -7,7 +7,18 @@ gcc version <= 8:
 gcc version  > 8:
  gfortran -cpp -fallow-argument-mismatch -ffpe-summary=none -O2 -g hcth.f90 xc_b97.f90 atom.f -o atom.x
 
-Add -D_LD1 or -D_NIST flag for comparison with QE LD1 code or NIST reference
+Add -D_LD1 or -D_NIST flag for comparison with QE LD1 code or NIST reference, respectively.
+
+Reference input and output files for N, Fe, Gd, and U can be found in the subfolders
+
+1) NIST: gfortran -cpp -D_NIST -fallow-argument-mismatch -ffpe-summary=none -O2 -g hcth.f90 xc_b97.f90 atom.f -o NIST/atom_nist.x
+
+and
+
+2) LD1: gfortran -cpp -D_LD1 -fallow-argument-mismatch -ffpe-summary=none -O2 -g hcth.f90 xc_b97.f90 atom.f -o LD1/atom_ld1.x
+
+using a large value for the parameter rprb (e.g. 1.0E3) to minimize the effect of the confining potential.
+
 
 ***********************************************************
 *                                                         *
