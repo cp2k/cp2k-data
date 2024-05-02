@@ -6,7 +6,9 @@ TARGET		= $(PROGRAM)
 
 FC = gfortran
 F90C = gfortran -ffree-form
-FFLAGS = -O2 -g
+FFLAGS = -O2 -g -cpp
+# Use same flags as for the atom code, e.g.
+#FFLAGS = -O2 -g -cpp -D_NIST
 LD = gfortran
 LDFLAGS = -static
 LIBS = -llapack -lblas

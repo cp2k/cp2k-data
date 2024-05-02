@@ -495,6 +495,23 @@ C..   functionals
               mgcx  = 0
               mgcc  = 0
               igrad = .FALSE.
+            ELSE IF (INDEX(icorr,"VWN").NE.0) THEN
+CMK           QE LD1 code (sla-vwn)
+              mfxcx = 1
+              mfxcc = 2
+              mgcx  = 0
+              mgcc  = 0
+              igrad = .FALSE.
+            ELSE IF (INDEX(icorr,"NIST").NE.0) THEN
+CMK           Only for validation
+CMK           Check and adapt fine structure constant as needed for the comparison with
+CMK           NIST (see https://www.nist.gov/pml/atomic-reference-data-electronic-structure-calculations) or
+CMK           QE LD1 code (rxc-vwn)
+              mfxcx = 2
+              mfxcc = 2
+              mgcx  = 0
+              mgcc  = 0
+              igrad = .FALSE.
             ELSE IF (INDEX(icorr,"LDA").NE.0) THEN
               mfxcx = 1
               mfxcc = 1

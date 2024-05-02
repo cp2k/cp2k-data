@@ -21,8 +21,12 @@ C     ==--------------------------------------------------------------==
      +         ,THIRD=1.D0/3.D0)
 C     ==--------------------------------------------------------------==
 C..Exchange
+      SALPHA = 2.0D0/3.0D0
       IF(MFXCX.EQ.1) THEN
         CALL SLATERX(RHO,EX,VX,SALPHA)
+      ELSE IF(MFXCX.EQ.2) THEN
+CMK     Corresponds to the functional rxc-vwn in QE LD1 code (NIST reference)
+        CALL RSLATERX(RHO,EX,VX,SALPHA)
       ELSE
         EX=0.0D0
         VX=0.0D0
@@ -199,9 +203,10 @@ C     ==================================================================
       SUBROUTINE SLATERX(RHO,EX,VX,ALPHA)
 C     ==--------------------------------------------------------------==
       IMPLICIT REAL*8 (A-H,O-Z)
-      PARAMETER (SMALL=1.D-10)
+      PARAMETER (SMALL=1.0D-10)
+CMK   F1 = -9/8*(3/pi)**(1/3)
       PARAMETER (F1 = -1.10783814957303361D0)
-      PARAMETER (THIRD=1.D0/3.D0,F43=4.D0/3.D0)
+      PARAMETER (THIRD=1.0D0/3.0D0,F43=4.0D0/3.0D0)
 C     ==--------------------------------------------------------------==
       IF(RHO.LE.SMALL) THEN
         EX = 0.0D0
@@ -209,7 +214,42 @@ C     ==--------------------------------------------------------------==
       ELSE
         RS = RHO**THIRD
         EX = F1*ALPHA*RS
-        VX = F43*F1*ALPHA*RS
+        VX = F43*EX
+      ENDIF
+C     ==--------------------------------------------------------------==
+      RETURN
+      END
+C     ==================================================================
+      SUBROUTINE RSLATERX(RHO,EX,VX,ALPHA)
+C     ==--------------------------------------------------------------==
+CMK   Relativistic Slater exchange (rxc in QE LD1 code)
+      IMPLICIT REAL*8 (A-H,O-Z)
+      PARAMETER (SMALL=1.0D-10)
+      PARAMETER (THIRD=1.0D0/3.0D0, PI=3.141592653589793D0)
+C     ==--------------------------------------------------------------==
+CMK   Original value for fine structure constant
+      C_AU = 137.0360411D0
+CMK   QE LD1 value
+#if defined(_LD1)
+      C_AU = 137.03599908D0
+#endif
+CMK   NIST value
+#if defined(_NIST)
+      C_AU = 137.0359895D0
+#endif
+      IF(RHO.LE.SMALL) THEN
+        EX = 0.0D0
+        VX = 0.0D0
+      ELSE
+        RS = (0.75D0/PI/RHO)**THIRD
+        A0 = (4.0D0/(9.0D0*PI))**THIRD
+        VXP = -1.5D0*ALPHA/(PI*A0*RS)
+        XP = 0.75D0*VXP
+        BETA = 1.0D0/A0/C_AU/RS
+        SB = SQRT(1.0D0 + BETA*BETA)
+        ALB = LOG(BETA + SB)
+        EX = XP*(1.0D0 - 1.5D0*((BETA*SB - ALB)/BETA**2)**2)
+        VX = VXP*(1.5D0*ALB/(BETA*SB) - 0.5D0)
       ENDIF
 C     ==--------------------------------------------------------------==
       RETURN
@@ -882,4 +922,3 @@ C.......OPTX in compact form..........................
 C
       RETURN
       END
-C =-------------------------------------------------------------------=
