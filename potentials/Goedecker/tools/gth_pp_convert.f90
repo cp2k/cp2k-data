@@ -441,7 +441,7 @@ PROGRAM gth_pp_convert
   DO i=1,nvalence
     READ (UNIT=unit_atom_dat,FMT=*) n,l,q
     elec_conf(l+1) = elec_conf(l+1) + q
-    IF (ABS(q - INT(q)) > eps_zero) frac_elec = .TRUE. ! we have a non-integer number of electrons
+    IF (ABS(q - NINT(q)) > eps_zero) frac_elec = .TRUE. ! we have a non-integer number of electrons
   END DO
 
   ! This is a hack for the elements from Hf to Pt, since
@@ -546,9 +546,9 @@ PROGRAM gth_pp_convert
 
   WRITE (UNIT=string,FMT="(I5)") izeff
   IF (ABS(ionic_charge) > eps_zero) THEN
-    WRITE (UNIT=unit_cp2k,FMT="(A,F0.6)")&
+    WRITE (UNIT=unit_cp2k,FMT="(A,SP,F0.6)")&
       "# Set CORE_CORRECTION ",ionic_charge
-    WRITE (UNIT=unit_cp2k_soc,FMT="(A,F0.6)")&
+    WRITE (UNIT=unit_cp2k_soc,FMT="(A,SP,F0.6)")&
       "# Set CORE_CORRECTION ",ionic_charge
   END IF
   IF (xc_string == "PADE") THEN
