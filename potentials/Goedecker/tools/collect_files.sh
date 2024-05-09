@@ -27,10 +27,10 @@ for xcfun in blyp bp hcth120 hcth407 pade pbe pbesol olyp; do
       pppdir=$(basename $(dirname ${ppdir}))
       if [[ ${pppdir} == *_* ]]; then
          ext="_$(echo ${pppdir} | cut -d_ -f2)"
-         sed -e "1s/ /${ext} /2g" -i ${cp2kfile}
-         sed -e "1s/$/${ext}/" -i ${cp2kfile}
-         sed -e "1s/ /${ext} /2g" -i ${cp2ksocfile}
-         sed -e "1s/$/${ext}/" -i ${cp2ksocfile}
+         sed -e "/^[A-Z]/s/ /${ext} /2g" -i ${cp2kfile}
+         sed -e "/^[A-Z]/s/$/${ext}/" -i ${cp2kfile}
+         sed -e "/^[A-Z]/s/ /${ext} /2g" -i ${cp2ksocfile}
+         sed -e "/^[A-Z]/s/$/${ext}/" -i ${cp2ksocfile}
       else
          ext=""
       fi
