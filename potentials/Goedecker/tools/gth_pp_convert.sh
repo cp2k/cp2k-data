@@ -5,7 +5,11 @@ echo Scanning build/ tree ... this may take some time, please wait
 for xx in $(find ../build -name XX); do
    cd $(dirname $xx) >/dev/null
    echo Processing: $(pwd)
-   $exe XX ../atom/atom.dat psp.par
+   if [[ -f atom.dat ]]; then
+      $exe XX atom.dat psp.par
+   else
+      $exe XX ../atom/atom.dat psp.par
+   fi
    #   cat INFO
    cd - >/dev/null
 done
