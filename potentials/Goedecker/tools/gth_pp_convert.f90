@@ -444,11 +444,6 @@ PROGRAM gth_pp_convert
     IF (ABS(q - NINT(q)) > eps_zero) frac_elec = .TRUE. ! we have a non-integer number of electrons
   END DO
 
-  ! This is a hack for the elements from Hf to Pt, since
-  ! the 4f electrons are not treated as valence electrons
-
-  IF ((72 <= iz).AND.(iz <= 78)) elec_conf(4) = 0.0_wp
-
   nelec = SUM(elec_conf)
 
   ! Find the occupied orbitals with the largest l value
