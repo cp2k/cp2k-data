@@ -24,7 +24,8 @@ PROGRAM gth_pp_convert
                         unit_cp2k     = 14,&
                         unit_cp2k_soc = 15,&
                         unit_textab   = 16,&
-                        unit_xx       = 17
+                        unit_xx       = 17,&
+                        unit_ec       = 18
 
   REAL(KIND=wp), PARAMETER :: eps_zero = 1.0E-8_wp
 
@@ -45,6 +46,7 @@ PROGRAM gth_pp_convert
   REAL(KIND=wp)      :: ionic_charge,nelec,rloc,q,xx_rloc,xx_z,xx_zeff,z,zeff
   INTEGER            :: i,idigits,ippnl,istat,iz,izeff,j,l,lmax,lppnl_max,n,&
                         narg,ncore,nppl,nppnl_max,nvalence,xc_code,xc_code_abinit
+  LOGICAL            :: ec_file_exists,frac_elec
 
   CHARACTER(LEN=2), DIMENSION(103) :: elesym =&
     (/"H ","He","Li","Be","B ","C ","N ","O ","F ","Ne","Na","Mg","Al","Si",&
@@ -64,8 +66,8 @@ PROGRAM gth_pp_convert
 
   INTEGER, DIMENSION(max_ppnl) :: nppnl,xx_nppnl
 
+  ! Functions
   INTEGER :: iargc
-  LOGICAL :: frac_elec
 
   ! ---------------------------------------------------------------------------
 
@@ -545,7 +547,31 @@ PROGRAM gth_pp_convert
       "# Set CORE_CORRECTION ",ionic_charge
     WRITE (UNIT=unit_cp2k_soc,FMT="(A,SP,F0.6)")&
       "# Set CORE_CORRECTION ",ionic_charge
-  END IF
+    ! Check for energy_correction file and retrieve energy correction if it exists
+    ec_file_exists = .FALSE.
+    INQUIRE (FILE="energy_correction", EXIST=ec_file_exists)
+    IF (ec_file_exists) THEN
+       OPEN (UNIT=unit_ec,&
+             FILE="energy_correction",&
+             STATUS="OLD",&
+             ACCESS="SEQUENTIAL",&
+             FORM="FORMATTED",&
+             POSITION="REWIND",&
+             ACTION="READ",&
+             IOSTAT=istat)
+       IF (istat /= 0) THEN
+          PRINT*,"ERROR: Could not open energy_correction file"
+          STOP
+       END IF
+       READ (UNIT=unit_ec,FMT="(A200)",IOSTAT=istat) line
+       IF (istat == 0) THEN
+          WRITE (UNIT=unit_cp2k,FMT="(A)") "# "//TRIM(ADJUSTL(line))
+       ELSE
+          PRINT*,"ERROR occurred while reading energy_correction file"
+          STOP
+       END IF
+    END IF
+  END IF ! non-zero ionic charge
   IF (xc_string == "PADE") THEN
     WRITE (UNIT=unit_cp2k,FMT="(A,1X,A)")&
       TRIM(elesym(iz)),"GTH-"//TRIM(xc_string)//"-q"//TRIM(ADJUSTL(string))//&
